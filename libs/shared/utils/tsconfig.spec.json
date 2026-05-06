@@ -1,0 +1,21 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../../dist/out-tsc",
+        "module": "preserve",
+        "target": "es2016",
+        "lib": ["es2023", "es2020", "dom"],
+        "types": ["jest", "node"],
+        "moduleResolution": "bundler",
+        "isolatedModules": true
+    },
+    "include": [
+        "jest.config.ts",
+        "jest.config.cts",
+        "src/**/*.test.ts",
+        "src/**/*.spec.ts",
+        "src/**/*.d.ts",
+        "src/**/*.ts"
+    ],
+    "references": []
+}

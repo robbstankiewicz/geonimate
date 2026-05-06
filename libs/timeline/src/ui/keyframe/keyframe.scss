@@ -1,0 +1,75 @@
+:host {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+}
+.keyframe-icon {
+    top: 0;
+    cursor: pointer;
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    transform: translate3d(-50%, -50%, 0) scale3d(1, 1.2, 1)
+        rotate3d(0, 1, 9, 45deg);
+    box-shadow: 0 0 0 0.7px var(--p-neutral-400);
+    &.active {
+        box-shadow: 0 0 0 1.5px var(--p-primary-color);
+        background-color: var(--p-splitter-background) !important;
+        // background-color: var(--p-primary-color) !important;
+    }
+    &.ghost {
+        // opacity: 0.35;
+        background: none !important;
+        // background-color: var(--p-surface-500) !important;
+        box-shadow: 0 0 0 .7px var(--p-neutral-400);
+        // box-shadow: 0 0 0 0.7px var(--p-surface-400);
+    }
+}
+.property-toggle {
+    label {
+        cursor: pointer;
+        padding-left: 0.5rem;
+    }
+    .icon {
+        cursor: pointer;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: var(--p-neutral-600);
+        transform: scaleX(0.85) rotate(45deg);
+        transition: background-color 0.2s;
+        &.active {
+            background-color: var(--p-primary-color);
+        }
+    }
+}
+.opacity-value {
+    width: 2rem;
+}
+.keyframe-properties {
+    display: flex;
+    flex-direction: column;
+}
+.property-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
+}
+.property-control {
+    flex: 1;
+}
+// ::ng-deep {
+//     .keyframe-popover {
+//         &::after,
+//         &::before {
+//             display: none;
+//         }
+//         .p-popover-content {
+//             width: 20rem;
+//         }
+//     }
+// }

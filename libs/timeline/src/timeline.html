@@ -1,0 +1,26 @@
+<lib-timescale
+    [playheadPositionMs]="store.playheadPositionMs()"
+    (playheadPositionMsChange)="store.setPlayheadFreehand($event)"
+    (timescaleClick)="store.setPlayheadFreehand($event)"
+    [snappingOn]="(holdingSnapKey$ | async) ?? false"
+    [fps]="store.options.fps()"
+    [timeMs]="store.options.timeMs()"
+    [trackPaddingPx]="trackPaddingPx()"
+    [widthPx]="childrenWidthPx()"
+    [snapPointsMs]="store.sortedTimestamps()">
+</lib-timescale>
+<div layerListScroll class="tracks-container">
+    @for(track of tracks(); track track.id) {
+    <lib-track
+        [snappingOn]="(holdingSnapKey$ | async) ?? false"
+        [color]="track.color"
+        [stepsCount]="stepsCount()"
+        [trackPaddingPx]="trackPaddingPx()"
+        [keyframes]="track.keyframes"
+        [widthPx]="childrenWidthPx()"
+        [timeMs]="store.options.timeMs()"
+        [active]="activeTrackId() === track.id"
+        (keyframeClick)="keyframeClick.emit($event)">
+    </lib-track>
+    }
+</div>

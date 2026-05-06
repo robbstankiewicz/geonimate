@@ -1,0 +1,62 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": true,
+        "composite": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2015",
+        "module": "esnext",
+        "lib": [
+            "es2020",
+            "dom"
+        ],
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@geonimate/map": [
+                "libs/map/src/index.ts"
+            ],
+            "@geonimate/config": [
+                "libs/config/src/index.ts"
+            ],
+            "@geonimate/shared-utils": [
+                "libs/shared/utils/src/index.ts"
+            ],
+            "@geonimate/shared-core": [
+                "libs/shared/core/src/index.ts"
+            ],
+            "@geonimate/shared-core/testing": [
+                "libs/shared/core/src/testing/index.ts"
+            ],
+            "@geonimate/shared-manager": [
+                "libs/shared/manager/src/index.ts"
+            ],
+            "poly2poly": [
+                "libs/poly2poly/src/index.ts"
+            ],
+            "@geonimate/timeline": [
+                "libs/timeline/src/index.ts"
+            ],
+            "@geonimate/settings": [
+                "libs/shared/settings/src/index.ts"
+            ],
+            "@geonimate/shell": [
+                "libs/shell/src/index.ts"
+            ],
+            "@geonimate/demos": [
+                "libs/demos/src/index.ts"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "tmp"
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../../dist/out-tsc",
+        "module": "preserve",
+        "target": "es2016",
+        "types": ["jest", "node"],
+        "lib": ["es2023", "es2020", "dom"],
+        "moduleResolution": "bundler",
+        "isolatedModules": true
+    },
+    "files": ["src/test-setup.ts"],
+    "include": [
+        "jest.config.ts",
+        "src/**/*.test.ts",
+        "src/**/*.spec.ts",
+        "src/**/*.d.ts",
+        "src/**/*.ts",
+        "../../timeline/src/core/providers/scale-values.provider.ts",
+        "../../timeline/src/core/store/timeline.store.ts",
+        "../../timeline/src/core/store/timeline.store.spec.ts",
+        "../../config/src/core/store/config.store.ts",
+        "../../config/src/core/store/config.store.spec.ts",
+        "../../map/src/core/store/map.store.ts",
+        "../../map/src/core/store/map.store.spec.ts",
+        "../../../apps/design/src/core/services/manager.service.ts"
+    ],
+    "references": [
+        {
+            "path": "../utils/tsconfig.lib.json"
+        }
+    ]
+}

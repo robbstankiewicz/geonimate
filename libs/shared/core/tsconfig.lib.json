@@ -1,0 +1,39 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../../dist/out-tsc",
+        "declaration": true,
+        "declarationMap": true,
+        "inlineSources": true,
+        "lib": [
+            "es2023",
+            "es2020",
+            "dom"
+        ],
+        "types": []
+    },
+    "exclude": [
+        "src/**/*.spec.ts",
+        "src/test-setup.ts",
+        "jest.config.ts",
+        "src/**/*.test.ts",
+        "jest.config.cts"
+    ],
+    "include": [
+        "src/**/*.ts"
+, "../../../apps/design/src/core/services/manager.service.ts"    ],
+    "references": [
+        {
+            "path": "../../shared/utils/tsconfig.lib.json"
+        },
+        {
+            "path": "../../map/tsconfig.lib.json"
+        },
+        {
+            "path": "../../timeline/tsconfig.lib.json"
+        },
+        {
+            "path": "../../config/tsconfig.lib.json"
+        }
+    ]
+}

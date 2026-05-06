@@ -1,0 +1,35 @@
+<div [style.backgroundImage]="background()" class="track-boundry" #trackBoundry>
+    @for (stacked of stackedKeyframesPx(); track stacked) {
+        <span
+            class="stacked"
+            [style]="{ transform: 'translateX(' + stacked + 'px)' }"></span>
+    }
+    @for (keyframe of keyframes(); track keyframe.id) {
+        <lib-keyframe
+            [stepsCount]="stepsCount()"
+            [trackWidthPx]="widthPx()"
+            [color]="hexColor()"
+            [id]="keyframe.id"
+            [snapPointsMs]="store.sortedTimestamps()"
+            [positionMs]="keyframe.timeMs"
+            (positionMsChange)="store.moveKeyframe(keyframe.id, $event)"
+            [snappingOn]="snappingOn()"
+            [maxMs]="timeMs()"
+            (dragStarted)="
+                timelineService.keyframeDragStarted$.next({
+                    keyframeId: keyframe.id,
+                    altKey: $event.altKey,
+                })
+            "
+            (dragEnded)="timelineService.keyframeDragEnded$.next(keyframe.id)"
+            [draggable]="keyframe.draggable"
+            (click)="
+                $event.stopPropagation();
+                keyframeClick.emit({
+                    event: $any($event),
+                    keyframeId: keyframe.id,
+                })
+            ">
+        </lib-keyframe>
+    }
+</div>

@@ -1,0 +1,97 @@
+<div class="player-root">
+    <div class="map-viewport">
+        <lib-map
+            [showControls]="true"
+            (positionChange)="onPositionChange($event)">
+        </lib-map>
+    </div>
+
+    <div
+        #bottomDockMeasure
+        class="bottom-dock"
+        role="region"
+        (mouseenter)="onBottomDockEnter()"
+        (mouseleave)="onBottomDockLeave()">
+        @if (!toolbarPinned()) {
+            <div class="bottom-hit-area" aria-hidden="true"></div>
+        }
+        <div
+            class="timeline-toolbar"
+            [class.visible]="toolbarPinned() || toolbarHovered()">
+            @let width = timelineWidthChange$ | async;
+            @if (width) {
+                <lib-timescale
+                    [playheadPositionMs]="timelineStore.playheadPositionMs()"
+                    (playheadPositionMsChange)="
+                        timelineStore.setPlayheadFreehand($event)
+                    "
+                    (timescaleClick)="timelineStore.setPlayheadFreehand($event)"
+                    [snappingOn]="(holdingSnapKey$ | async) ?? false"
+                    [fps]="timelineStore.options.fps()"
+                    [timeMs]="timelineStore.options.timeMs()"
+                    [trackPaddingPx]="appOpts.trackPaddingPx"
+                    [widthPx]="width"
+                    [snapPointsMs]="
+                        timelineStore.sortedTimestamps()
+                    "></lib-timescale>
+            }
+            <div class="timeline-toolbar-inner">
+                <div class="toolbar-left">
+                    <input
+                        #replayFileInput
+                        type="file"
+                        accept="application/json"
+                        hidden
+                        (change)="onReplayFileSelected($event)" />
+                    <p-button
+                        type="button"
+                        icon="pi pi-file-import"
+                        label="Import"
+                        variant="outlined"
+                        (click)="onImportReplayClick()"
+                        [attr.aria-label]="
+                        'Import replay from JSON file'
+                        "></p-button>
+                </div>
+                <div class="toolbar-center">
+                    <p-button
+                        icon="pi pi-step-backward"
+                        [text]="true"
+                        (click)="manager.goToPrevTimestamp()"
+                        [rounded]="true"
+                        title="Previous timestamp"></p-button>
+                    <p-button
+                        [icon]="
+                        manager.isPlaying() ? 'pi pi-pause' : 'pi pi-play'
+                        "
+                        (click)="manager.togglePlay()"
+                        [text]="true"
+                        [rounded]="true"></p-button>
+                    <p-button
+                        icon="pi pi-step-forward"
+                        [text]="true"
+                        (click)="manager.goToNextTimestamp()"
+                        [rounded]="true"
+                        title="Next timestamp"></p-button>
+                </div>
+                <div class="toolbar-right">
+                    <p-button
+                        icon="pi pi-thumbtack"
+                        [outlined]="!toolbarPinned()"
+                        [rounded]="true"
+                        (click)="toggleToolbarPinned()"
+                        [attr.aria-pressed]="toolbarPinned()"
+                        [attr.aria-label]="
+                        toolbarPinned()
+                        ? 'Unpin playback controls'
+                        : 'Pin playback controls'
+                        "
+                        [title]="
+                        toolbarPinned() ? 'Unpin toolbar' : 'Pin toolbar'
+                        "></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast position="bottom-center" />

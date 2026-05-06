@@ -1,0 +1,160 @@
+<p-splitter
+    [style]="{ height: 'calc(100% - 4rem)' }"
+    [panelSizes]="[65, 35]"
+    layout="vertical"
+    class="main-splitter">
+    <ng-template pTemplate>
+        <lib-map
+            [showControls]="true"
+            (positionChange)="onPositionChange($event)">
+        </lib-map>
+    </ng-template>
+    <ng-template pTemplate>
+        @let width = timelineWidthChange$ | async;
+
+        <p-splitter
+            #configSplitter
+            [panelSizes]="[20, 80]"
+            [minSizes]="[10, 10]"
+            class="timeline-splitter"
+            panelStyleClass="timeline-splitter-panel">
+            <ng-template pTemplate>
+                @if (width) {
+                    <div class="config-panel">
+                        <div class="actions">
+                            <p-inputgroup>
+                                <p-select
+                                    [options]="layerOptions"
+                                    [(ngModel)]="selectedLayerType"
+                                    optionLabel="label"
+                                    appendTo="body"
+                                    optionValue="value">
+                                    <ng-template
+                                        #selectedItem
+                                        let-selectedOption>
+                                        <div class="flex items-center gap-2">
+                                            <i
+                                                [class]="
+                                                    selectedOption.icon
+                                                "></i>
+                                            <span>{{
+                                                selectedOption.label
+                                            }}</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template #item let-option>
+                                        <div class="flex items-center gap-2">
+                                            <i [class]="option.icon"></i>
+                                            <span>{{ option.label }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-select>
+                                <p-button
+                                    type="button"
+                                    icon="pi pi-plus"
+                                    (click)="
+                                        manager.addLayer(selectedLayerType())
+                                    ">
+                                </p-button>
+                            </p-inputgroup>
+                        </div>
+                        <lib-config></lib-config>
+                    </div>
+                }
+            </ng-template>
+            <ng-template pTemplate>
+                <div #timelineContainer class="timeline-container">
+                    @if (width) {
+                        <lib-timeline
+                            [containerWidth]="width"
+                            [trackPaddingPx]="appOptions.trackPaddingPx"
+                            [activeTrackId]="manager.activeLayerId()"
+                            [tracks]="manager.timelineTracks()"
+                            (keyframeClick)="popup.toggle($event)">
+                        </lib-timeline>
+                        <lib-keyframe-properties-popup
+                            #popup></lib-keyframe-properties-popup>
+                    }
+                </div>
+            </ng-template>
+        </p-splitter>
+    </ng-template>
+</p-splitter>
+<div class="timeline-toolbar">
+    <div class="toolbar-center">
+        <p-button
+            icon="pi pi-step-backward"
+            [text]="true"
+            (click)="manager.goToPrevTimestamp()"
+            [rounded]="true"
+            title="Previous timestamp"></p-button>
+        <p-button
+            [icon]="manager.isPlaying() ? 'pi pi-pause' : 'pi pi-play'"
+            (click)="manager.togglePlay()"
+            [text]="true"
+            [rounded]="true"></p-button>
+        <p-button
+            icon="pi pi-step-forward"
+            [text]="true"
+            [rounded]="true"
+            (click)="manager.goToNextTimestamp()"
+            title="Next timestamp"></p-button>
+    </div>
+    <div class="toolbar-left">
+        <input
+            #replayFileInput
+            type="file"
+            accept="application/json"
+            hidden
+            (change)="onReplayFileSelected($event)" />
+        <p-button
+            icon="pi pi-cog"
+            variant="outlined"
+            [text]="true"
+            [rounded]="true"
+            (click)="showSettingsDialog.set(true)"
+            title="Global settings">
+        </p-button>
+        <p-button
+            type="button"
+            icon="pi pi-file-export"
+            label="Export"
+            variant="outlined"
+            (click)="onExportReplay()"
+            [attr.aria-label]="'Export replay as JSON file'"></p-button>
+        <p-button
+            type="button"
+            icon="pi pi-file-import"
+            label="Import"
+            variant="outlined"
+            (click)="onImportReplayClick()"
+            [attr.aria-label]="'Import replay from JSON file'"></p-button>
+    </div>
+    <div class="toolbar-right">
+        <p-button
+            icon="pi pi-search-plus"
+            [text]="true"
+            [rounded]="true"
+            (click)="manager.changeScale('up')"
+            title="Zoom in"></p-button>
+        <p-button
+            icon="pi pi-search-minus"
+            [text]="true"
+            [rounded]="true"
+            (click)="manager.changeScale('down')"
+            title="Zoom out"></p-button>
+        <p-select
+            [options]="propertyModes"
+            [ngModel]="config.selectedPropertyMode()"
+            (ngModelChange)="config.setSelectedPropertyMode($event)"
+            optionLabel="label"
+            optionValue="value"
+            [style]="{ minWidth: '13rem' }"
+            [scrollHeight]="'30rem'">
+        </p-select>
+    </div>
+</div>
+<p-toast position="bottom-center" />
+<lib-settings-dialog
+    [visible]="showSettingsDialog()"
+    (visibleChange)="showSettingsDialog.set($event)" />

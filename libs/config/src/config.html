@@ -1,0 +1,20 @@
+<div
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListSortPredicate]="sortPredicate"
+    [cdkDropListData]="layers()">
+    @for(layer of layers(); track layer.id) {
+    <lib-layer-list-item
+        [isEditable]="
+            layer.type !== 'camera' ||
+            (layer.type === 'camera' && layer.cameraLocked !== true)
+        "
+        (click)="selectLayer(layer.id)"
+        (addKeyframe)="addKeyframe(layer.id)"
+        (layerChange)="editLayer(layer.id, $event)"
+        (settingsClick)="openSettings($event, layer)"
+        [class.active]="activeLayerId() === layer.id"
+        [layer]="layer">
+    </lib-layer-list-item>
+    }
+</div>

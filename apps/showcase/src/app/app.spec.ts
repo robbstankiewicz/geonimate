@@ -1,0 +1,19 @@
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { App } from './app';
+import { appRoutes } from './app.routes';
+
+describe('App', () => {
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [App],
+            providers: [provideRouter(appRoutes), MessageService],
+        }).compileComponents();
+    });
+
+    it('should create', () => {
+        const fixture = TestBed.createComponent(App);
+        expect(fixture.componentInstance).toBeTruthy();
+    });
+});

@@ -1,0 +1,63 @@
+<div class="layer-item">
+    @if (layer().type === 'camera') {
+        <button
+            type="button"
+            class="action-button camera-lock-button"
+            [attr.aria-label]="
+                isCameraKeyframeLocked()
+                    ? 'Unlock camera for editing and keyframe playback'
+                    : 'Lock camera to prevent editing and keyframe playback'
+            "
+            (click)="toggleCameraLock(); $event.stopPropagation()">
+            <i
+                class="pi"
+                [class.pi-lock]="isCameraKeyframeLocked()"
+                [class.pi-lock-open]="!isCameraKeyframeLocked()"></i>
+        </button>
+    }
+    @if (layer().type !== 'camera') {
+        <button
+            type="button"
+            class="action-button visibility-button"
+            [attr.aria-label]="
+                layer().display === false ? 'Show layer' : 'Hide layer'
+            "
+            (click)="toggleDisplay(); $event.stopPropagation()">
+            <i
+                class="pi"
+                [class.pi-eye]="layer().display !== false"
+                [class.pi-eye-slash]="layer().display === false"></i>
+        </button>
+    }
+    <i [class]="'pi ' + getIcon()" class="layer-icon"></i>
+
+    <div
+        class="name-wrapper"
+        (dblclick)="nameFocus(); $event.stopPropagation()">
+        <input
+            pInputText
+            [formControl]="nameControl"
+            (blur)="nameBlur()"
+            #input
+            type="text" />
+    </div>
+    <div class="actions">
+        @if (layer().type !== 'camera') {
+            <button
+                class="action-button settings-button"
+                (click)="settingsClick.emit($event); $event.stopPropagation()">
+                <i class="pi pi-cog"></i>
+            </button>
+        }
+
+        <button
+            type="button"
+            class="action-button add-keyframe"
+            [disabled]="isCameraKeyframeLocked()"
+            (click)="addKeyframe.emit(); $event.stopPropagation()">
+            <span class="keyframe-icon"></span>
+            <i class="pi pi-plus"></i>
+        </button>
+    </div>
+</div>
+<div [style.backgroundColor]="hexColor()" class="color-indicator"></div>

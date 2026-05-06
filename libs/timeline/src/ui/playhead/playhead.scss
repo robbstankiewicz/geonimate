@@ -1,0 +1,28 @@
+:host {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    z-index: 2;
+
+    &::after {
+        content: '';
+        top: 1.8rem;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 14px solid red;
+        position: absolute;
+        cursor: grab;
+        transform: translate3d(-50%, 0, 0);
+    }
+    &::before {
+        content: '';
+        display: block;
+        pointer-events: none;
+        top: 2rem;
+        bottom: 0;
+        width: 1px;
+        background-color: red;
+        position: absolute;
+        transform: translate3d(-50%, 0, 0);
+    }
+}

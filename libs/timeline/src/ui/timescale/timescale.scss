@@ -1,0 +1,49 @@
+:host {
+  // padding: 0 2rem;
+  // flex: 1 0 70px;
+  display: block;
+  border-bottom: 1px solid var(--p-content-border-color);
+}
+// .timeline-tick {
+//   position: absolute;
+//   height: 10px;
+//   width: 1px;
+//   background-color: var(--surface-400);
+//   margin-top: 1rem;
+//   transform: translateX(-50%);
+// }
+.ticks-container {
+  // display: flex;
+  // overflow: visible;
+  // top: 1rem;
+  // left: 1rem;
+  // right: 1rem;
+  position: relative;
+  height: 100%;
+  // justify-content: space-between;
+}
+
+.timeline-tick {
+  position: absolute;
+  transform: translate3d(-50%, 300%, 0);
+  width: 0;
+  &::before {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 10px;
+    transform: translate3d(-50%, 0, 0);
+    background-color: var(--p-surface-400);
+  }
+  &--has-label {
+    &::before {
+      width: 3px;
+    }
+  }
+  &__label {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%, -150%, 0);
+  }
+}

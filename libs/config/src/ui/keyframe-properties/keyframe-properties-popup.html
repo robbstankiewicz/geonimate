@@ -1,0 +1,53 @@
+<p-popover
+    [focusOnShow]="false"
+    [dismissable]="true"
+    styleClass="keyframe-popover">
+    @let rows = propertyRows();
+    @if (rows.length > 0) {
+        <div class="keyframe-properties">
+            <div class="keyframe-properties-toolbar">
+                <p-button
+                    icon="pi pi-chevron-circle-down"
+                    label="Move here"
+                    [text]="true"
+                    (click)="moveHere(); $event.stopPropagation()">
+                </p-button>
+                <p-button
+                    label="Remove keyframe"
+                    severity="danger"
+                    [text]="true"
+                    icon="pi pi-trash"
+                    (click)="deleteKeyframe(); $event.stopPropagation()">
+                </p-button>
+            </div>
+            @for (row of rows; track row.id) {
+                <div class="property-row" [class.inactive]="!row.isActive">
+                    <span
+                        class="property-toggle"
+                        tabindex="0"
+                        (click)="toggleActive(row.id)"
+                        (keydown.enter)="toggleActive(row.id)">
+                        <span class="icon" [class.active]="row.isActive">
+                        </span>
+                        <span class="label">{{ row.label }}</span>
+                    </span>
+                    @if (row.controlComponent) {
+                        <ng-container
+                            *ngComponentOutlet="
+                                row.controlComponent;
+                                inputs: {
+                                    value: row.value,
+                                    isActive: row.isActive,
+                                    onValueChange: onValueChange.bind(
+                                        this,
+                                        row.id
+                                    ),
+                                }
+                            ">
+                        </ng-container>
+                    }
+                </div>
+            }
+        </div>
+    }
+</p-popover>

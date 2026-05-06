@@ -1,0 +1,138 @@
+:host {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.5rem;
+    position: relative;
+    // gap: 0.4rem;
+    padding: 0 1rem 0 0.4rem;
+    background-color: var(--p-content-background);
+    border-bottom: 1px solid var(--p-content-border-color);
+
+    .layer-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .layer-icon {
+        font-size: 1rem;
+        color: var(--p-text-secondary-color);
+        width: 1.2rem;
+        text-align: center;
+    }
+    &.active {
+        // &::after {
+        //     position: absolute;
+        //     content: '';
+        //     left: 0;
+        //     top: 0;
+        //     width: 100%;
+        //     height: 100%;
+        //     border-top: 1px solid var(--p-primary-color);
+        //     border-bottom: 1px solid var(--p-primary-color);
+        // }
+        background-color: var(--p-surface-800);
+    }
+    // &::before {
+    //     content: '';
+    //     display: block;
+    //     height: 1px;
+    //     background-color: var(--p-content-border-color);
+    //     top: 0;
+    //     position: absolute;
+    //     width: 100%;
+    //     left: 0;
+    // }
+    // &::after {
+    //     content: '';
+    //     display: block;
+    //     height: 1px;
+    //     background-color: var(--p-content-border-color);
+    //     bottom: 0;
+    //     position: absolute;
+    //     width: 100%;
+    //     left: 0;
+    // }
+}
+input {
+    font-family: inherit;
+    width: 100%; // Ensure it fills the wrapper
+    text-overflow: ellipsis;
+    // margin-right: 0.5em; // Moved margin to wrapper or handled by flex gap
+    &:focus {
+        outline: none;
+    }
+    &:disabled {
+        background: none;
+        border: none;
+        pointer-events: none; // Allow clicks to pass through to wrapper
+    }
+}
+
+.name-wrapper {
+    height: 1.4rem;
+    flex-grow: 1;
+    margin-right: 0.5em;
+    display: flex;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    color: var(--p-neutral-500);
+    transition: color 0.2s;
+
+    &:hover {
+        color: var(--p-primary-color);
+        .keyframe-icon {
+            // border-color: var(--p-primary-color);
+            background-color: var(--p-primary-color);
+        }
+    }
+
+    .keyframe-icon {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--p-neutral-600);
+        // border: 1px solid var(--p-neutral-600);
+        transform: scaleX(0.85) rotate(45deg);
+        transition: background-color 0.2s;
+    }
+    &.add-keyframe {
+        i {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.6rem;
+            z-index: 1;
+            margin-top: -1px;
+        }
+    }
+}
+.color-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 0.5rem;
+}

@@ -1,0 +1,99 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.player-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.map-viewport {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+lib-map {
+    flex: 1;
+    min-height: 0;
+}
+
+.bottom-dock {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.bottom-hit-area {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4rem;
+    z-index: 0;
+    opacity: 0;
+    pointer-events: auto;
+}
+
+.timeline-toolbar {
+    background: var(--p-neutral-800);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    max-height: 0;
+    padding-block: 0;
+    pointer-events: none;
+    transition: max-height 0.3s ease;
+
+    .timeline-toolbar-inner {
+        height: 4rem;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &.visible {
+        max-height: 10rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        pointer-events: auto;
+    }
+
+    .toolbar-center {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-right: auto;
+    }
+
+    .toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+
+    lib-timescale {
+        position: relative;
+        width: 100%;
+        display: block;
+        height: 4rem;
+        flex-shrink: 0;
+        background: var(--p-content-background);
+        border-top: 1px solid var(--p-content-border-color);
+    }
+}

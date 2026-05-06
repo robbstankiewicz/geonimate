@@ -1,0 +1,29 @@
+<div
+    #ticksContainer
+    class="ticks-container"
+    tabindex="0"
+    role="slider"
+    [attr.aria-valuenow]="playheadPositionMs()"
+    (click)="onTimescaleClick($event)"
+    (keydown.enter)="onTimescaleClick($event)"
+    >
+    @for (tick of ticks(); track tick.positionLeftPct) {
+    <span
+        [ngClass]="{ 'timeline-tick--has-label': tick.label !== null }"
+        [style.left]="tick.positionLeftPct + '%'"
+        class="timeline-tick">
+        @if (tick.label !== null) {
+        <span class="timeline-tick__label"> {{ tick.label }}s </span>
+        }
+    </span>
+    }
+</div>
+
+<lib-playhead
+    [snappingOn]="snappingOn()"
+    [(positionMs)]="playheadPositionMs"
+    [maxMs]="timeMs()"
+    [trackWidthPx]="widthPx()"
+    [stepsCount]="stepsCount()"
+    [snapPointsMs]="snapPointsMs()">
+</lib-playhead>

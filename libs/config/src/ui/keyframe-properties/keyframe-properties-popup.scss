@@ -1,0 +1,49 @@
+.property-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+    line-height: 2.5rem;
+    flex: 1 0 9rem;
+    justify-content: flex-start;
+    cursor: pointer;
+    .label {
+        padding-left: 0.5rem;
+    }
+    .icon {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: var(--p-neutral-600);
+        transform: scaleX(0.85) rotate(45deg);
+        transition: background-color 0.2s;
+        &.active {
+            background-color: var(--p-primary-color);
+        }
+    }
+}
+.keyframe-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.keyframe-properties-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--p-content-border-color, var(--p-neutral-200));
+    margin-bottom: 0.25rem;
+}
+
+.property-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
+    min-height: 2.5rem;
+}
+.property-control {
+    flex: 1;
+}

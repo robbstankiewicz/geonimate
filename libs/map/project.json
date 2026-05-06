@@ -1,0 +1,21 @@
+{
+  "name": "map",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["--scope=map", "--type=feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/map/jest.config.ts",
+        "tsConfig": "libs/map/tsconfig.spec.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

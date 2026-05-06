@@ -1,0 +1,7 @@
+<div id="map" #map></div>
+<lib-map-overlays
+    (positionChange)="positionChange.emit($event)">
+</lib-map-overlays>
+@defer (when showControls()) {
+    <!-- <lib-controls></lib-controls> -->
+}
