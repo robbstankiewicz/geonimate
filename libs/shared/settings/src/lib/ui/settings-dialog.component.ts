@@ -90,9 +90,10 @@ export class SettingsDialogComponent {
     constructor() {
         effect(() => {
             // Patch from importing
-            const store = this.store.values();
-            console.log(store)
-            this.form.setValue(store, { emitEvent: true });
+            if (!this.visible()) {
+                const store = this.store.values();
+                this.form.setValue(store, { emitEvent: true });
+            }
         });
     }
 
