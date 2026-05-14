@@ -5,6 +5,7 @@ import { BACKGROUND_LAYERS } from '@geonimate/shared-core';
 import BaseLayer from 'ol/layer/Base';
 import { useGeographic } from 'ol/proj.js';
 import Feature from 'ol/Feature';
+import OlPoint from 'ol/geom/Point';
 import OlPolygon from 'ol/geom/Polygon';
 import Draw from 'ol/interaction/Draw';
 import {
@@ -80,6 +81,31 @@ describe('Map store', () => {
         store.addLayer(layer2);
         expect(store.layersEntities().length).toEqual(2);
         expect(store.map()?.getLayers().getLength()).toEqual(4);
+    });
+
+    it('should prune duplicate point features when updating position', async () => {
+        // repeating features fix
+        const store = TestBed.inject(mapStore);
+        await jest.runAllTimersAsync();
+
+        const layerId = generateId<LayerId>();
+        const layer = createLayerConfig(
+            'point',
+            layerId,
+            'Point Layer',
+            { r: 255, g: 0, b: 0 }
+        );
+        store.addLayer(layer);
+        const olLayer = store.layersEntityMap()[layerId].value;
+        const source = olLayer.getSource()!;
+        source.addFeature(new Feature(new OlPoint([0, 0])));
+        source.addFeature(new Feature(new OlPoint([1, 1])));
+
+        store.updatePointFeature(layerId, [5, 5]);
+
+        expect(source.getFeatures().length).toBe(1);
+        const geom = source.getFeatures()[0].getGeometry() as OlPoint;
+        expect(geom.getCoordinates()).toEqual([5, 5]);
     });
 
     it('should add layer with OpenLayers visibility false when display is false', async () => {

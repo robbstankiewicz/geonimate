@@ -58,8 +58,16 @@ export const settingsStore = signalStore(
             maxFontSize: appOptions.maxFontSize ?? 100,
         };
     }),
-    withComputed(() => ({
+    withComputed((state) => ({
         fontOptions: () => [...WEB_SAFE_FONTS],
+        values: () => ({
+            timeMs: state.timeMs(),
+            fps: state.fps(),
+            fontFamily: state.fontFamily(),
+            fontSize: state.fontSize(),
+            backgroundLayer: state.backgroundLayer(),
+            scaleTextWithMap: state.scaleTextWithMap(),
+        }),
     })),
     withMethods((store, backgroundLayers = inject(BACKGROUND_LAYERS)) => ({
         updateMaxTimeMs(timeMs: number) {

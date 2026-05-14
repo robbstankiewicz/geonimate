@@ -26,11 +26,15 @@ export function resolveScaledTextFontPx(
     basePx: number,
     context: MapTextStyleContext
 ): number {
+    if (!context.scaleTextWithMap) {
+        return basePx;
+    }
     const sensitivity = 1; // todo
     const scaled =
-        basePx * sensitivity * (context.textScaleReferenceResolution / context.resolution);
-
-    return scaled
+        basePx *
+        sensitivity *
+        (context.textScaleReferenceResolution / context.resolution);
+    return scaled;
 }
 
 export type StyleFunction<T extends Layer = Layer> = (
@@ -387,14 +391,7 @@ const styleStrategies: {
     text: textStyleStrategy,
     number: numberStyleStrategy,
     date: dateStyleStrategy,
-    camera: ((
-        _feature,
-        _props,
-        _layerConfig,
-        _ff,
-        _fs,
-        _ctx
-    ) => []) as StyleFunction<Extract<Layer, { type: 'camera' }>>,
+    camera: (() => [])
 };
 
 export function getStyleStrategy<T extends Layer['type']>(

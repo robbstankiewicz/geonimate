@@ -6,12 +6,12 @@
     [closable]="true"
     [closeOnEscape]="true"
     [dismissableMask]="true">
-    <div class="settings-form">
+    <form [formGroup]="form" class="settings-form">
         <div class="field">
             <label for="timeMs">Timeline Duration (ms)</label>
             <p-inputNumber
+                [formControl]="form.controls.timeMs"
                 id="timeMs"
-                [(ngModel)]="editedTimeMs"
                 [min]="1000"
                 [max]="300000"
                 [step]="1000"
@@ -29,7 +29,7 @@
             <label for="fps">Grid density (per second)</label>
             <p-inputNumber
                 id="fps"
-                [(ngModel)]="editedFps"
+                [formControl]="form.controls.fps"
                 [min]="1"
                 [max]="60"
                 [step]="1"
@@ -48,7 +48,7 @@
             <p-select
                 [appendTo]="'body'"
                 id="fontFamily"
-                [(ngModel)]="editedFontFamily"
+                [formControl]="form.controls.fontFamily"
                 [options]="fontOptions"
                 placeholder="Select font">
             </p-select>
@@ -58,7 +58,7 @@
             <label for="fontSize">Default Font Size</label>
             <p-inputNumber
                 id="fontSize"
-                [(ngModel)]="editedFontSize"
+                [formControl]="form.controls.fontSize"
                 [min]="store.minFontSize()"
                 [max]="store.maxFontSize()"
                 [step]="1"
@@ -75,30 +75,28 @@
         <div class="field checkbox-row">
             <p-checkbox
                 inputId="scaleTextWithMap"
-                [(ngModel)]="editedScaleTextWithMap"
+                [formControl]="form.controls.scaleTextWithMap"
                 [binary]="true">
             </p-checkbox>
             <label class="checkbox-label" for="scaleTextWithMap">
-                Scale text with map</label>
+                Scale image and text with map</label
+            >
         </div>
 
         <div class="field">
-            <label for="backgroundLayer"
-            >Default Background Layer</label
-            >
+            <label for="backgroundLayer">Default Background Layer</label>
             <p-select
                 id="backgroundLayer"
-                [(ngModel)]="editedBackgroundLayer"
+                [formControl]="form.controls.backgroundLayer"
                 appendTo="body"
                 [options]="backgroundOptions"
                 placeholder="Select layer">
             </p-select>
         </div>
-    </div>
+    </form>
 
     <ng-template pTemplate="footer">
-        <p-button label="Cancel" [text]="true" (click)="onCancel()">
-        </p-button>
+        <p-button label="Cancel" [text]="true" (click)="onCancel()"> </p-button>
         <p-button label="Save" (click)="onSave()"> </p-button>
     </ng-template>
 </p-dialog>

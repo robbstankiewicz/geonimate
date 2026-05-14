@@ -423,6 +423,10 @@ export const mapStore = signalStore(
                         window.removeEventListener('keydown', onWindowKeyDown);
                         window.removeEventListener('keyup', onWindowKeyUp);
                     };
+                } else {
+                    draw.on('drawstart', () => {
+                        source.clear();
+                    });
                 }
 
                 draw.on('drawend', event => {
@@ -447,24 +451,13 @@ export const mapStore = signalStore(
                 const layer = store.layersEntityMap()[layerId];
                 if (!layer) return;
                 const source = layer.value.getSource() as VectorSource;
-
                 if (ring === null) {
-                    source.clear();
                     return;
                 }
-                const features = source.getFeatures();
-                const existing = features[0] as Feature<OlPolygon> | undefined;
-                const existingGeom = existing?.getGeometry() as
-                    | OlPolygon
-                    | undefined;
-                if (!existing || !existingGeom) {
-                    source.clear();
-                    source.addFeature(
-                        new Feature<OlPolygon>(new OlPolygon([ring]))
-                    );
-                    return;
-                }
-                existingGeom.setCoordinates([ring]);
+                source.clear();
+                source.addFeature(
+                    new Feature<OlPolygon>(new OlPolygon([ring]))
+                );
             },
             updatePointFeature(
                 layerId: LayerId,
@@ -473,19 +466,11 @@ export const mapStore = signalStore(
                 const layer = store.layersEntityMap()[layerId];
                 if (!layer) return;
                 const source = layer.value.getSource() as VectorSource;
+                source.clear();
                 if (pos === null) {
-                    source.clear();
                     return;
                 }
-                const features = source.getFeatures();
-                const existing = features[0] as Feature<Point> | undefined;
-                const existingGeom = existing?.getGeometry() as Point | undefined;
-                if (!existing || !existingGeom) {
-                    source.clear();
-                    source.addFeature(new Feature<Point>(new Point(pos)));
-                    return;
-                }
-                existingGeom.setCoordinates(pos);
+                source.addFeature(new Feature<Point>(new Point(pos)));
             },
             updateLayerOpacity(layerId: LayerId, opacity: number) {
                 const layer = store.layersEntityMap()[layerId];

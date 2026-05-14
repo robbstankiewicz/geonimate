@@ -1,6 +1,11 @@
 import { Component, effect, inject, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -18,6 +23,7 @@ import { settingsStore } from '../store/settings.store';
         InputNumberModule,
         SelectModule,
         CheckboxModule,
+        ReactiveFormsModule,
     ],
     templateUrl: './settings-dialog.component.html',
     styles: [
@@ -62,56 +68,54 @@ import { settingsStore } from '../store/settings.store';
 })
 export class SettingsDialogComponent {
     protected readonly store = inject(settingsStore);
-
+    protected form = new FormGroup({
+        timeMs: new FormControl(this.store.timeMs(), { nonNullable: true }),
+        fps: new FormControl(this.store.fps(), { nonNullable: true }),
+        fontFamily: new FormControl(this.store.fontFamily(), {
+            nonNullable: true,
+        }),
+        fontSize: new FormControl(this.store.fontSize(), { nonNullable: true }),
+        scaleTextWithMap: new FormControl(this.store.scaleTextWithMap(), {
+            nonNullable: true,
+        }),
+        backgroundLayer: new FormControl(this.store.backgroundLayer(), {
+            nonNullable: true,
+        }),
+    });
     visible = model.required<boolean>();
-
-    editedTimeMs = this.store.timeMs();
-    editedFps = this.store.fps();
-    editedFontFamily = this.store.fontFamily();
-    editedFontSize = this.store.fontSize();
-    editedScaleTextWithMap = this.store.scaleTextWithMap();
-    editedBackgroundLayer = this.store.backgroundLayer();
 
     fontOptions = this.store.fontOptions();
     backgroundOptions = this.store.getBackgroundLayerOptions();
 
     constructor() {
         effect(() => {
-            const isVisible = this.visible();
-            const timeMs = this.store.timeMs();
-            const fps = this.store.fps();
-            const fontFamily = this.store.fontFamily();
-            const fontSize = this.store.fontSize();
-            const scaleTextWithMap = this.store.scaleTextWithMap();
-            const backgroundLayer = this.store.backgroundLayer();
-            if (!isVisible) {
-                this.editedTimeMs = timeMs;
-                this.editedFps = fps;
-                this.editedFontFamily = fontFamily;
-                this.editedFontSize = fontSize;
-                this.editedScaleTextWithMap = scaleTextWithMap;
-                this.editedBackgroundLayer = backgroundLayer;
-            }
+            // Patch from importing
+            const store = this.store.values();
+            console.log(store)
+            this.form.setValue(store, { emitEvent: true });
         });
     }
 
     onCancel() {
-        this.editedTimeMs = this.store.timeMs();
-        this.editedFps = this.store.fps();
-        this.editedFontFamily = this.store.fontFamily();
-        this.editedFontSize = this.store.fontSize();
-        this.editedScaleTextWithMap = this.store.scaleTextWithMap();
-        this.editedBackgroundLayer = this.store.backgroundLayer();
+        this.form.reset(this.store.values(), { emitEvent: false });
         this.visible.set(false);
     }
 
     onSave() {
-        this.store.updateMaxTimeMs(this.editedTimeMs);
-        this.store.updateFps(this.editedFps);
-        this.store.updateFontFamily(this.editedFontFamily);
-        this.store.updateFontSize(this.editedFontSize);
-        this.store.updateScaleTextWithMap(this.editedScaleTextWithMap);
-        this.store.updateBackgroundLayer(this.editedBackgroundLayer);
+        const {
+            timeMs,
+            fps,
+            fontFamily,
+            fontSize,
+            scaleTextWithMap,
+            backgroundLayer,
+        } = this.form.getRawValue();
+        this.store.updateMaxTimeMs(timeMs);
+        this.store.updateFps(fps);
+        this.store.updateFontFamily(fontFamily);
+        this.store.updateFontSize(fontSize);
+        this.store.updateScaleTextWithMap(scaleTextWithMap);
+        this.store.updateBackgroundLayer(backgroundLayer);
         this.visible.set(false);
     }
 }
