@@ -35,6 +35,11 @@ export const appConfig: ApplicationConfig = {
                 title: 'Europe GDP over the years',
                 file: 'demos/europe-gdp.json',
             },
+            {
+                id: 'heartbeat',
+                title: 'Shape animation',
+                file: 'demos/heartbeat.json',
+            }
         ]),
     ],
 };
