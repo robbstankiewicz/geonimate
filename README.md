@@ -1,7 +1,7 @@
 # Geonimate
 
-Geonimate is a web app for designing and playing back map animations.
-<img width="1476" height="830" alt="geonimate" src="https://github.com/user-attachments/assets/a913c310-7d0d-4959-8fd0-6ae0a1bfeb0f" />
+Geonimate is a web app for map animations.
+<img width="1260" height="843" alt="heartbeat" src="https://github.com/user-attachments/assets/0ea0a12f-093f-4960-8b7d-aa44eeed6bd8" />
 
 ## Demo
 
